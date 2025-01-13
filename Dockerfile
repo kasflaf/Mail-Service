@@ -1,6 +1,9 @@
 # Use the official PHP image with FPM (FastCGI Process Manager)
 FROM php:8.1-fpm
 
+# Install the required dependencies
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
 # Set the working directory in the container
 WORKDIR /var/www/html
 
