@@ -19,12 +19,10 @@ services:
       - "7000:8080"
     command: >
       bash -c "apt-get update &&
-      RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer &&
-      apt-get install -y libicu-dev &&
-      apt-get install -y libpq-dev &&
-      apt-get install -y git &&
-      docker-php-ext-install intl &&
-      docker-php-ext-install pgsql &&
+      apt-get install -y libicu-dev libpq-dev curl git &&
+      curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer &&
+      docker-php-ext-install intl pgsql &&
+      composer install &&
       php spark migrate &&
       php spark serve --host 0.0.0.0 --port 8080"
 
