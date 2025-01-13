@@ -10,6 +10,3 @@ COPY ./Service /var/www/html
 # Set the proper permissions for the copied files
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html
-
-# Grant necessary permissions for writable directory (CodeIgniter-specific)
-RUN chown -R www-data:www-data /var/www/html/writable
