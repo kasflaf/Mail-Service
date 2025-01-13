@@ -1,9 +1,8 @@
 services:
   php_mail:
-    image: php:8.1-fpm
-    container_name: ci4_php_fpm
-    volumes:
-      - ./Service:/var/www/html:z # Bind mount your CI4 code to the container
+    build:
+      dockerfile: Dockerfile
+    container_name: mail_service
     networks:
       - ci4_network
     environment:
@@ -17,7 +16,7 @@ services:
     expose:
       - "8080"
     ports:
-      - "9000:8080"
+      - "7000:8080"
     command: >
       bash -c "apt-get update &&
       apt-get install -y libicu-dev &&
@@ -29,18 +28,18 @@ services:
 
   db_mail:
     image: postgres:13
-    container_name: ci4_postgres
+    container_name: mail_db
     environment:
       POSTGRES_USER: ${DB_USERNAME} # Use the DB_USERNAME from .env
       POSTGRES_PASSWORD: ${DB_PASSWORD} # Use the DB_PASSWORD from .env
       POSTGRES_DB: ${DB_DATABASE} # Use the DB_DATABASE from .env
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - mail_data:/var/lib/postgresql/data
     networks:
       - ci4_network
 
 volumes:
-  postgres_data:
+  mail_data:
 
 networks:
   ci4_network:
